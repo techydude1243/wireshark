@@ -609,14 +609,14 @@ tcp port 23 and not src host 10.0.0.5
 ----
 ====
 
-// XXX - add examples to the following list.
-
 A primitive is simply one of the following: _[src|dst] host <host>_::
 This primitive allows you to filter on a host IP address or name. You can
 optionally precede the primitive with the keyword _src|dst_ to specify that you
 are only interested in source or destination addresses. If these are not
 present, packets where the specified address appears as either the source or the
 destination address will be selected.
++
+For example, `src host 192.0.2.10` captures packets sent by that host.
 
 ether [src|dst] host <ehost>::
 This primitive allows you to filter on Ethernet host addresses. You can
@@ -624,6 +624,9 @@ optionally include the keyword _src|dst_ between the keywords _ether_ and _host_
 to specify that you are only interested in source or destination addresses. If
 these are not present, packets where the specified address appears in either the
 source or destination address will be selected.
++
+For example, `ether host 00:11:22:33:44:55` captures packets to or from that
+Ethernet address.
 
 gateway host <host>::
 This primitive allows you to filter on packets that used _host_ as a gateway.
@@ -637,6 +640,8 @@ interested in a source or destination network. If neither of these are present,
 packets will be selected that have the specified network in either the source or
 destination address. In addition, you can specify either the netmask or the CIDR
 prefix for the network if they are different from your own.
++
+For example, `src net 192.0.2.0/24` captures packets sent from that network.
 
 
 [tcp|udp] [src|dst] port <port>::
@@ -649,19 +654,27 @@ before _src|dst_.
 If these are not specified, packets will be selected for both the TCP and UDP
 protocols and when the specified address appears in either the source or
 destination port field.
++
+For example, `tcp dst port 443` captures HTTPS traffic sent to a server.
 
 less|greater <length>::
 This primitive allows you to filter on packets whose length was less than or
 equal to the specified length, or greater than or equal to the specified length,
 respectively.
++
+For example, `greater 1024` captures packets that are at least 1024 bytes long.
 
 ip|ether proto <protocol>::
 This primitive allows you to filter on the specified protocol at either the
 Ethernet layer or the IP layer.
++
+For example, `ip proto icmp` captures ICMP packets.
 
 ether|ip broadcast|multicast::
 This primitive allows you to filter on either Ethernet or IP broadcasts or
 multicasts.
++
+For example, `ether multicast` captures Ethernet multicast packets.
 
 <expr> relop <expr>::
 This primitive allows you to create complex filter expressions that select bytes or ranges of bytes in packets.
